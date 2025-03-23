@@ -1,18 +1,14 @@
-def translate(text: str):
+# copied from https://exercism.org/tracks/python/exercises/pig-latin/solutions/MartinDelille
 
-    vowels = ['a', 'e', 'i', 'o', 'u']
+def translate_word(word):
+    while not word[0] in 'aeiou':
+        if word[0] in 'xy' and not word[1] in 'aeiou':
+            break
+        word = word[1:] + word[0]
+        if word[-1] == 'q' and word[0] == 'u':
+            word = word[1:] + 'u'
 
-    if text[0] in vowels or text[0] == 'xr' or text[0] == 'ay':
-      return text + 'ay'
+    return word + 'ay'
 
-    temp_consonants = []
-
-    for char in text:
-
-      if char == 'u' and temp_consonants[-1] == 'q':
-        return text[len(temp_consonants):] + ''.join(temp_consonants) + 'uay'
-
-      if char == 'y':
-        return text[len(temp_consonants):] + 'ay'
-
-      temp_consonants.append(char)
+def translate(sentence):
+    return ' '.join([translate_word(word) for word in sentence.split()])
